@@ -14,6 +14,7 @@ import { EventService } from './demo/service/event.service';
 import { IconService } from './demo/service/icon.service';
 import { NodeService } from './demo/service/node.service';
 import { PhotoService } from './demo/service/photo.service';
+import {CardModule} from 'primeng/card';
 import { LoginComponent } from './login/login.component';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -40,7 +41,8 @@ import { LoginplatformComponent } from './loginplatform/loginplatform.component'
         FormsModule,
         PasswordModule,
         CommonModule,
-        DragDropModule
+        DragDropModule,
+        CardModule
       ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

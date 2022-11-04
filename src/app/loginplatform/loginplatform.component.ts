@@ -11,6 +11,7 @@ export class LoginplatformComponent implements OnInit {
 
   userId = '';
   displayName ='';
+  datesign ='';
   platform ='';
   isLoggedIn = false;
   isLoginFailed = false;
@@ -21,6 +22,8 @@ export class LoginplatformComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    const now = new Date();
+this.datesign = now.toLocaleString();
 let _userid ='';
     this.activatedRoute.queryParams.subscribe(params => {
       _userid = params['userid']; 
