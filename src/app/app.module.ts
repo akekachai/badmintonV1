@@ -22,10 +22,11 @@ import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 
 import { CommonModule } from '@angular/common';
+import { LoginplatformComponent } from './loginplatform/loginplatform.component';
 
 @NgModule({
     declarations: [
-        AppComponent, NotfoundComponent, LoginComponent
+        AppComponent, NotfoundComponent, LoginComponent, LoginplatformComponent
     ],
     imports: [
         BrowserModule,
