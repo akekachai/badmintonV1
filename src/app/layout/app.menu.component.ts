@@ -15,28 +15,19 @@ export class AppMenuComponent implements OnInit {
     ngOnInit() {
         this.model = [
             {
-                label: 'Home',
+                label: '',
                 items: [
-                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] }
-                    
+                    { label: 'หน้าหลัก', icon: 'pi pi-fw pi-home', routerLink: ['/'] },
+                    {label:'Profile',  icon: 'pi pi-fw pi-user', routerLink: ['/person/profile']},
+                    { label: 'join match', icon: 'pi pi-fw pi-id-card', routerLink: ['/uikit/formlayout'] },
+                    { label: 'สถิติ', icon: 'pi pi-fw pi-check-square', routerLink: ['/uikit/input'] },
                 ]
             },
             {
-                label: 'Person',
-                items:
-                [
-                    {label:'Profile',  icon: 'pi pi-fw pi-user', routerLink: ['/person/profile']}
-                ]
-          
-            },
-            {
-                label: 'Action',
-                items: [
-                    { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', routerLink: ['/uikit/formlayout'] },
-                    { label: 'Input', icon: 'pi pi-fw pi-check-square', routerLink: ['/uikit/input'] },
-                   
-                ]
-            },
+                label: 'ก๊วน',
+                items: [ 
+                    {label:'สร้าง',  icon: 'pi pi-fw pi-user', routerLink: ['/clubs/create']}            ]
+            }
           
         ];
     }

@@ -18,6 +18,6 @@ export class UserService {
   constructor(private http: HttpClient) {}
   getUserBoard(): Observable<any> {
     console.log(TOKEN_KEY);
-    return this.http.get(API_URL+ '/user', httpOptions);
+    return this.http.get(API_URL, httpOptions);
   }
 }

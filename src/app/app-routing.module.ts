@@ -13,7 +13,7 @@ import { LoginplatformComponent } from './loginplatform/loginplatform.component'
     children: [
       { path: '', loadChildren: () => import('./demo/components/dashboard/dashboard.module').then(m => m.DashboardModule) },
       { path: 'person',loadChildren:() => import('./demo/components/person/person.module').then(m => m.PersonModule) },
-      { path: 'uikit', loadChildren: () => import('./demo/components/uikit/uikit.module').then(m => m.UIkitModule) },
+      { path: 'clubs', loadChildren: () => import('./demo/components/clubs/clubs.module').then(m => m.ClubsModule) },
       { path: 'utilities', loadChildren: () => import('./demo/components/utilities/utilities.module').then(m => m.UtilitiesModule) },
       { path: 'documentation', loadChildren: () => import('./demo/components/documentation/documentation.module').then(m => m.DocumentationModule) },
       { path: 'blocks', loadChildren: () => import('./demo/components/primeblocks/primeblocks.module').then(m => m.PrimeBlocksModule) },
