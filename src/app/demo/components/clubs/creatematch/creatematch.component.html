@@ -1,0 +1,38 @@
+<p-toast key="tst"></p-toast>
+
+<div class="card p-fluid">
+    <h5>สร้าง วันตี</h5>
+    <div class="p-formgrid grid">
+
+        <div class="field col-12">
+            <div class="col-12 md:col-3">
+                <label htmlFor="name1">วันที่ : </label>
+                <p-calendar formControlName="date" dateFormat="dd.mm.yy" [showIcon]="true" inputId="icon"></p-calendar>
+
+            </div>
+
+        </div>
+
+        <div class="field col-12 md:col-3">
+            <label for="minmax-buttons">จำนวนคน</label>
+            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="100">
+            </p-inputNumber>
+        </div>
+        <div class="field col-12 md:col-3">
+            <label for="integeronly">ราคาแรก</label>
+            <p-inputNumber inputId="integeronly">
+            </p-inputNumber>
+
+        </div>
+
+        <div class="field col-12 md:col-3">
+            <label for="integeronly">ราคาสอง</label>
+            <p-inputNumber inputId="integeronly">
+            </p-inputNumber>
+        </div>
+
+        <div class="field col-12 md:col-4">
+            <button pButton pRipple label="บันทึก" class="w-full p-3 text-xl"></button>
+        </div>
+    </div>
+</div>

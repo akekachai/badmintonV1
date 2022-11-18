@@ -4,44 +4,68 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HTTP_INTERCEPTORS,  
-  HttpErrorResponse
+  HTTP_INTERCEPTORS,
+  HttpErrorResponse,
 } from '@angular/common/http';
- 
+
 import { AuthService } from '../services/auth.service';
 import { StorageService } from '../services/storage.service';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError, filter, switchMap, take } from 'rxjs/operators';
-const TOKEN_HEADER_KEY = 'Authorization';        // for Spring Boot back-end
+import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
+
+const TOKEN_HEADER_KEY = 'Authorization'; // for Spring Boot back-end
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-
+  responseCache = new Map();
   private isRefreshing = false;
-  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
+    null
+  );
 
-  constructor(private storageService: StorageService, private authService: AuthService, private router: Router) { }
+  constructor(
+    private storageService: StorageService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-
-
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<Object>> {
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<Object>> {
+    const cache = this.responseCache.get(req.urlWithParams);
     let authReq = req;
     const token = this.storageService.getToken();
     if (token != null) {
       authReq = this.addTokenHeader(req, token);
     }
 
-    return next.handle(authReq).pipe(catchError(error => {
-      if (error instanceof HttpErrorResponse && !authReq.url.includes('authenticate') && error.status === 401) {
-       console.log('1');
-       this.router.navigate(['/login']);
-       // return this.handle401Error(authReq, next);
-      } 
+    if (!this.canCache(req)) {
+      return next.handle(req);
+    }
 
-      return throwError(error);
-    }));
+    return next.handle(authReq).pipe(
+      tap((res) => {
+        console.log('Passed through the interceptor in response');
+        this.responseCache.set(authReq.urlWithParams, res);
+      }),
+      catchError((error) => {
+        if (
+          error instanceof HttpErrorResponse &&
+          !authReq.url.includes('authenticate') &&
+          error.status === 401
+        ) {
+          this.handle401Error(authReq, next);
+        }
+
+        return throwError(error);
+      })
+    );
   }
 
+  canCache(request: HttpRequest<unknown>): boolean {
+    return request.urlWithParams.includes('/api/person');
+  }
   private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
@@ -64,18 +88,16 @@ export class AuthInterceptor implements HttpInterceptor {
             this.isRefreshing = false;
             console.log('3-2');
             this.storageService.signOut();
-            return (err);
+            return err;
           })
         );
     }
     console.log('4');
     return this.refreshTokenSubject.pipe(
-      filter(token => token !== null),
+      filter((token) => token !== null),
       take(1),
       switchMap((token) => next.handle(this.addTokenHeader(request, token)))
-      
     );
- 
   }
 
   private addTokenHeader(request: HttpRequest<any>, token: string) {
@@ -83,11 +105,13 @@ export class AuthInterceptor implements HttpInterceptor {
     // return request.clone({ headers: request.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + token) });
 
     /* for Node.js Express back-end */
-   
-    return request.clone({ headers: request.headers.set(TOKEN_HEADER_KEY, token) });
+
+    return request.clone({
+      headers: request.headers.set(TOKEN_HEADER_KEY, token),
+    });
   }
 }
 
 export const authInterceptorProviders = [
-  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
 ];

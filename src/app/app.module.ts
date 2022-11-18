@@ -24,6 +24,8 @@ import { InputTextModule } from 'primeng/inputtext';
 
 import { CommonModule } from '@angular/common';
 import { LoginplatformComponent } from './loginplatform/loginplatform.component';
+import { authInterceptorProviders } from './Interceptor/auth.interceptor';
+
  
 
 @NgModule({
@@ -48,7 +50,7 @@ import { LoginplatformComponent } from './loginplatform/loginplatform.component'
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService
+        PhotoService, ProductService,authInterceptorProviders
     ],
     bootstrap: [AppComponent]
 })

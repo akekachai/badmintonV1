@@ -26,7 +26,9 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'ก๊วน',
                 items: [ 
-                    {label:'สร้าง',  icon: 'pi pi-fw pi-user', routerLink: ['/clubs/create']}            ]
+                    {label:'สร้าง',  icon: 'pi pi-fw pi-user', routerLink: ['/clubs/create']} ,    
+                    {label:'สร้างวันตี',  icon: 'pi pi-fw pi-user', routerLink: ['/clubs/creatematch']}   
+                       ]
             }
           
         ];
